@@ -20,7 +20,7 @@ st.markdown("This app uses ATP match data from 1981–2024 to predict match outc
 # Download full ATP match data if not already available
 DATA_URL = "https://github.com/JeffSackmann/tennis_atp/archive/refs/heads/master.zip"
 
-if not os.path.exists("atp_data"):
+if not os.path.exists("atp_data") or not os.listdir("atp_data"):
     with st.spinner("Downloading ATP dataset (~15MB)..."):
         import zipfile, requests, io, shutil
         r = requests.get(DATA_URL)
@@ -38,10 +38,19 @@ if not os.path.exists("atp_data"):
                 st.warning(f"Failed to clean temp directory: {e}")
 
         z.extractall(temp_dir)
-        if os.path.exists(os.path.join(temp_dir, "tennis_atp-master")):
-            if os.path.exists("atp_data"):
-                shutil.rmtree("atp_data", onerror=remove_readonly)
-            os.rename(os.path.join(temp_dir, "tennis_atp-master"), "atp_data")
+
+        extracted_dir = os.path.join(temp_dir, "tennis_atp-master")
+        if os.path.exists(extracted_dir):
+            try:
+                if os.path.exists("atp_data"):
+                    shutil.rmtree("atp_data", onerror=remove_readonly)
+                os.rename(extracted_dir, "atp_data")
+            except Exception as e:
+                st.error(f"Failed to move ATP data directory: {e}")
+        else:
+            st.error("ATP data folder not found in extracted zip!")
+            st.stop()
+
         try:
             shutil.rmtree(temp_dir, onerror=remove_readonly)
         except Exception as e:
