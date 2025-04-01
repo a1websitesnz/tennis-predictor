@@ -1,3 +1,3 @@
-# Tennis Match Predictor
+# 🎾 Tennis Match Predictor
 
-Streamlit app to predict ATP tennis match outcomes using Elo ratings and XGBoost.
+This app uses ATP match data from 1981–2024 to predict tennis match outcomes using Elo ratings and machine learning.
