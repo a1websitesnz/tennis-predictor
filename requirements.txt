@@ -7,3 +7,4 @@ matplotlib
 seaborn
 requests
 joblib
+PyMuPDF==1.23.9
