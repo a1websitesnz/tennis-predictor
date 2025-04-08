@@ -8,3 +8,4 @@ seaborn
 requests
 joblib
 PyMuPDF==1.23.9
+unidecode
